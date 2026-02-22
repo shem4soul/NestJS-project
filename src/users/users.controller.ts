@@ -16,7 +16,7 @@ export class UsersController {
 
   @Get() //GET /users or /users?role=value
   findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
-    return [];
+    return this.usersService.findAll(role);
   }
 
   //   @Get('interns') //Get all interns
@@ -26,21 +26,36 @@ export class UsersController {
 
   @Get(':id') //Get user by id
   findOne(@Param('id') id: string) {
-    return 'This action returns a user by id';
+    return this.usersService.findOne(+id);
   }
 
   @Post() //Create a new user
-  create(@Body() user: {}) {
-    return 'This action creates a new user';
+  create(
+    @Body()
+    user: {
+      name: string;
+      email: string;
+      role: 'INTERN' | 'ENGINEER' | 'ADMIN';
+    },
+  ) {
+    return this.usersService.create(user);
   }
 
   @Patch(':id') //PATCH / users/:id
-  update(@Param('id') id: string, @Body() userUpdate: {}) {
-    return { id, ...userUpdate };
+  update(
+    @Param('id') id: string,
+    @Body()
+    userUpdate: {
+      name?: string;
+      email?: string;
+      role?: 'INTERN' | 'ENGINEER' | 'ADMIN';
+    },
+  ) {
+    return this.usersService.update(+id, userUpdate);
   }
 
   @Delete(':id') //DELETE /users/:id
   delete(@Param('id') id: string) {
-    return 'This action returns a user by id';
+    return this.usersService.delete(+id);
   }
 }
