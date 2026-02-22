@@ -34,4 +34,16 @@ export class UsersService {
       role: 'INTERN',
     },
   ];
+
+  findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+    if (role) {
+      return this.users.filter((user) => user.role === role);
+    }
+    return this.users;
+  }
+
+  findOne(id: number) {
+    const user = this.users.find((user) => user.id === id);
+    return user;
+  }
 }
