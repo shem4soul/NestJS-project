@@ -35,26 +35,17 @@ export class UsersController {
   @Post() //Create a new user
   create(
     @Body()
-    user: {
-      name: string;
-      email: string;
-      role: 'INTERN' | 'ENGINEER' | 'ADMIN';
-    },
+    createUserDto: CreateUserDto,
   ) {
-    return this.usersService.create(user);
+    return this.usersService.create(createUserDto);
   }
 
   @Patch(':id') //PATCH / users/:id
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body()
-    userUpdate: {
-      name?: string;
-      email?: string;
-      role?: 'INTERN' | 'ENGINEER' | 'ADMIN';
-    },
+    @Body() updateUserDTO: UpdateUserDto,
   ) {
-    return this.usersService.update(id, userUpdate);
+    return this.usersService.update(id, updateUserDTO);
   }
 
   @Delete(':id') //DELETE /users/:id
