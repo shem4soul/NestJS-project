@@ -7,13 +7,13 @@ export class UsersController {
     return 'This action returns all users';
   }
 
+  @Get('interns') //Get all interns
+  findAllInterns() {
+    return [];
+  }
+
   @Get(':id') //Get user by id
   findOne() {
     return 'This action returns a user by id';
-  }
-
-  @Get('interns') //Get all interns
-  findAllInterns() {
-    return 'This action returns all interns';
   }
 }
