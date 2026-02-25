@@ -1,16 +1,3 @@
-// import { Module } from '@nestjs/common';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
-// import { UsersModule } from './users/users.module';
-// import { DatabaseModule } from './database/database.module';
-// import { EmployeeModule } from './employee/employee.module';
-
-// @Module({
-//   imports: [UsersModule, DatabaseModule, EmployeeModule],
-//   controllers: [AppController],
-//   providers: [AppService],
-// })
-// export class AppModule {}
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'; // ✅ ADD THIS
 import { AppController } from './app.controller';
@@ -18,6 +5,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { EmployeeModule } from './employee/employee.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjS/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -28,8 +17,20 @@ import { EmployeeModule } from './employee/employee.module';
     UsersModule,
     DatabaseModule,
     EmployeeModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 3,
+      },
+    ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
